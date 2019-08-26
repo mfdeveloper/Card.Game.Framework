@@ -40,12 +40,15 @@ namespace CardFramework
 
         protected CardPack parentPack;
 
+        protected ParticleSystem particle;
+
         void Awake()
         {
             var starsGroup = GetComponentInChildren<HorizontalLayoutGroup>();
             allImages = GetComponentsInChildren<Image>();
             boxCollider = GetComponentInChildren<BoxCollider2D>(true);
             parentPack = GetComponentInParent<CardPack>();
+            particle = GetComponentInChildren<ParticleSystem>(true);
 
             if (allImages.Length > 0)
             {
@@ -217,6 +220,12 @@ namespace CardFramework
 
                         int rotateBack = revealParams.degreesY == 90 ? 0 : 90;
                         transform.DORotate(new Vector3(0, rotateBack, 0), revealParams.duration);
+
+                        if (particle != null)
+                        {
+                            particle.transform.parent.gameObject.SetActive(true);
+                        }
+
                     }
                 });
         }
